@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		ED9F77571A42D8A100D15B84 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9F77561A42D8A100D15B84 /* EditViewController.swift */; };
+		ED9F77591A42DA2800D15B84 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9F77581A42DA2800D15B84 /* TableViewController.swift */; };
+		ED9F775B1A42DA9700D15B84 /* DetalleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9F775A1A42DA9700D15B84 /* DetalleViewController.swift */; };
+		ED9F775F1A42EF8A00D15B84 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9F775E1A42EF8A00D15B84 /* Person.m */; };
 		FBE10FB01A419A87008DB441 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE10FAF1A419A87008DB441 /* AppDelegate.swift */; };
 		FBE10FB31A419A87008DB441 /* Agenda.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBE10FB11A419A87008DB441 /* Agenda.xcdatamodeld */; };
-		FBE10FB51A419A87008DB441 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE10FB41A419A87008DB441 /* ViewController.swift */; };
 		FBE10FB81A419A87008DB441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE10FB61A419A87008DB441 /* Main.storyboard */; };
 		FBE10FBA1A419A88008DB441 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FBE10FB91A419A88008DB441 /* Images.xcassets */; };
 		FBE10FBD1A419A88008DB441 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FBE10FBB1A419A88008DB441 /* LaunchScreen.xib */; };
@@ -27,11 +30,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ED9F77561A42D8A100D15B84 /* EditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		ED9F77581A42DA2800D15B84 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewController.swift; path = ../TableViewController.swift; sourceTree = "<group>"; };
+		ED9F775A1A42DA9700D15B84 /* DetalleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetalleViewController.swift; sourceTree = "<group>"; };
+		ED9F775C1A42EF8A00D15B84 /* Agenda-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Agenda-Bridging-Header.h"; sourceTree = "<group>"; };
+		ED9F775D1A42EF8A00D15B84 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		ED9F775E1A42EF8A00D15B84 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		FBE10FAA1A419A87008DB441 /* Agenda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Agenda.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE10FAE1A419A87008DB441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBE10FAF1A419A87008DB441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FBE10FB21A419A87008DB441 /* Agenda.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Agenda.xcdatamodel; sourceTree = "<group>"; };
-		FBE10FB41A419A87008DB441 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		FBE10FB71A419A87008DB441 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FBE10FB91A419A88008DB441 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FBE10FBC1A419A88008DB441 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -79,13 +87,18 @@
 		FBE10FAC1A419A87008DB441 /* Agenda */ = {
 			isa = PBXGroup;
 			children = (
+				ED9F77581A42DA2800D15B84 /* TableViewController.swift */,
+				ED9F775A1A42DA9700D15B84 /* DetalleViewController.swift */,
 				FBE10FAF1A419A87008DB441 /* AppDelegate.swift */,
-				FBE10FB41A419A87008DB441 /* ViewController.swift */,
 				FBE10FB61A419A87008DB441 /* Main.storyboard */,
+				ED9F77561A42D8A100D15B84 /* EditViewController.swift */,
 				FBE10FB91A419A88008DB441 /* Images.xcassets */,
 				FBE10FBB1A419A88008DB441 /* LaunchScreen.xib */,
 				FBE10FB11A419A87008DB441 /* Agenda.xcdatamodeld */,
+				ED9F775D1A42EF8A00D15B84 /* Person.h */,
+				ED9F775E1A42EF8A00D15B84 /* Person.m */,
 				FBE10FAD1A419A87008DB441 /* Supporting Files */,
+				ED9F775C1A42EF8A00D15B84 /* Agenda-Bridging-Header.h */,
 			);
 			path = Agenda;
 			sourceTree = "<group>";
@@ -215,9 +228,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FBE10FB51A419A87008DB441 /* ViewController.swift in Sources */,
+				ED9F775F1A42EF8A00D15B84 /* Person.m in Sources */,
+				ED9F77571A42D8A100D15B84 /* EditViewController.swift in Sources */,
+				ED9F775B1A42DA9700D15B84 /* DetalleViewController.swift in Sources */,
 				FBE10FB01A419A87008DB441 /* AppDelegate.swift in Sources */,
 				FBE10FB31A419A87008DB441 /* Agenda.xcdatamodeld in Sources */,
+				ED9F77591A42DA2800D15B84 /* TableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,9 +358,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Agenda/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Agenda/Agenda-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -352,9 +371,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = Agenda/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "Agenda/Agenda-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -411,6 +432,7 @@
 				FBE10FCE1A419A88008DB441 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FBE10FCF1A419A88008DB441 /* Build configuration list for PBXNativeTarget "AgendaTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +441,7 @@
 				FBE10FD11A419A88008DB441 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
