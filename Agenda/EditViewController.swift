@@ -18,8 +18,8 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var notes: UITextField!
     @IBOutlet weak var geolocation: UITextField!
     
+    //var appDelegate: AppDelegate
     var person: Person?
-    //var photo: UIImage
     
     @IBAction func selectPhoto(sender: AnyObject) {
         //?? SavedPhotosAlbum o PhotoLibrary
@@ -43,10 +43,9 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        if (person != nil) {
+        if (person!.name != "") {
             title = "Editar"
-            //photo.
-            //photoButton.imageView?.image = person.p
+            photoButton.imageView?.image = UIImage(named: person!.photo)
             name.text = person?.name
             phone.text = person?.phone
             score.text = "\(person?.score)"
@@ -63,6 +62,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func savePerson(sender: UIBarButtonItem) {
+        
         
     }
 
