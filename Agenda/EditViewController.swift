@@ -8,27 +8,50 @@
 
 import UIKit
 
-class EditViewController: UIViewController {
+class EditViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     
     @IBOutlet weak var photoButton: UIButton!
-    
     @IBOutlet weak var phone: UITextField!
-    
     @IBOutlet weak var score: UITextField!
-    
-    
     @IBOutlet weak var name: UITextField!
-    
     @IBOutlet weak var notes: UITextField!
-    
     @IBOutlet weak var geolocation: UITextField!
     
+    var person: Person?
     
     @IBAction func selectPhoto(sender: AnyObject) {
+        //?? SavedPhotosAlbum o PhotoLibrary
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+            NSLog("Button capture")
+            var imag = UIImagePickerController()
+            imag.delegate = self
+            imag.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+            //imag.mediaTypes = [kUTTypeImage];
+            imag.allowsEditing = false
+            presentViewController(imag, animated: true, completion: nil)
+        }
     }
+    
+    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
+        let selectedImage : UIImage = image
+        //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
+        photoButton.imageView?.image=selectedImage
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        if (person != nil) {
+            title = "Editar"
+            name.text = person?.name
+            phone.text = person?.phone
+            //score.text = String(person?.score)
+            //geolocation.text = "Latitude: "+String(person?.latitude)+",   Longitude: "+String(person?.longitude)
+            notes.text = person?.notes
+            
+        }
+        
 
         // Do any additional setup after loading the view.
     }
