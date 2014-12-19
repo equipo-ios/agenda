@@ -24,6 +24,7 @@ class DetalleViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        photo.image = UIImage(named: person!.photo)
         name.text = person?.name
         phone.text = person?.phone
         score.text = "\(person?.score)"
