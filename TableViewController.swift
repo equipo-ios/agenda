@@ -29,6 +29,9 @@ class TableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        
+        // MUY IMPORTANTE: si no se especifica la siguiente propiedad no se pueden seleccionar celdas en el modo de edición
+        tableView.allowsSelectionDuringEditing = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,13 +90,14 @@ class TableViewController: UITableViewController {
         if editingStyle == .Delete {
             // Borramos los datos
             // TODO: hacer la llamada al modelo
+            // TODO: solicitar confirmación antes de borrar
             persons.removeObjectAtIndex(indexPath.row)
             
             // Delete the row from the data source
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
 
     /*
@@ -116,20 +120,13 @@ class TableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        /*
-        if ([[segue identifier] isEqualToString:@"Detalle"]) {
-            DetailViewController *vc = [segue destinationViewController];
-            Pelicula *pelicula = [self.fetchedRecordsArray objectAtIndex:[self.tableView indexPathForSelectedRow].row];
-            vc.pelicula = pelicula;
-        }
-        */
-                
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        
         if (segue.identifier == "Add") {
             NSLog("Vamos al segue Add")
             var vc: EditViewController = segue.destinationViewController as EditViewController
-            // Pasarle un nueva Person
+            // Pasarle una nueva Person
             //var p = Person()
             //vc.person = p
         }
@@ -154,23 +151,18 @@ class TableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // esto nos permite realizar el segue condicional
-        /*
-        // Find the selected cell in the usual way
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        // en función del modo de la tabla (editar - normal)
         
-        // Check if this is the cell I want to segue from by using the reuseIdenifier
-        // which I set in the "Identifier" field in Interface Builder
-        if ([cell.reuseIdentifier isEqualToString:@"CellIWantToSegueFrom"]) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath)!
         
-            // Do my conditional logic - this was the whole point of changing the segue
-            if (myConditionForSegueIsSatisfied) {
-                // Perform the segue using the identifier I was careful to give it in IB
-                // Note I'm sending the cell as the sender because that's what the normal
-                // segue does and I already had code counting on that
-                [self performSegueWithIdentifier:@"SegueIdentifer" sender:cell];
+        if cell.reuseIdentifier == "Celda" {
+            if self.tableView.editing {
+                self.performSegueWithIdentifier("Edit", sender: cell)
+            } else {
+                let person = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as String
+                NSLog("Vamos a llamar a: %@", person)
             }
         }
-        */
     }
     
 }
