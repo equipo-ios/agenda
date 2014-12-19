@@ -134,8 +134,8 @@ class TableViewController: UITableViewController {
             //vc.person = p
         }
         
-        if (segue.identifier == "EditAcc") {
-            NSLog("Vamos al segue EditAcc")
+        if (segue.identifier == "Edit") {
+            NSLog("Vamos al segue Edit")
             var vc: EditViewController = segue.destinationViewController as EditViewController
             // Pasarle la person de la Celda
             //var p = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as Person
