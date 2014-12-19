@@ -38,6 +38,8 @@ class EditViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func savePerson(sender: UIBarButtonItem) {
+    }
 
     /*
     // MARK: - Navigation
