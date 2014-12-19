@@ -19,6 +19,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var geolocation: UITextField!
     
     var person: Person?
+    //var photo: UIImage
     
     @IBAction func selectPhoto(sender: AnyObject) {
         //?? SavedPhotosAlbum o PhotoLibrary
@@ -44,14 +45,14 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.viewDidLoad()
         if (person != nil) {
             title = "Editar"
+            //photo.
+            //photoButton.imageView?.image = person.p
             name.text = person?.name
             phone.text = person?.phone
-            //score.text = String(person?.score)
-            //geolocation.text = "Latitude: "+String(person?.latitude)+",   Longitude: "+String(person?.longitude)
+            score.text = "\(person?.score)"
+            geolocation.text = "Latitude: \(person?.latitude),  Longitude: \(person?.longitude)"
             notes.text = person?.notes
-            
         }
-        
 
         // Do any additional setup after loading the view.
     }
@@ -62,6 +63,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func savePerson(sender: UIBarButtonItem) {
+        
     }
 
     /*
