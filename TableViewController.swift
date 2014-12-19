@@ -38,6 +38,13 @@ class TableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    func makePhoneCall(phone: String) {
+        NSLog("Llamando")
+        let phone = "tel://982374234"
+        let url: NSURL = NSURL(string:phone)!
+        UIApplication.sharedApplication().openURL(url)
+    }
 
     // MARK: - Table view data source
 
@@ -89,12 +96,25 @@ class TableViewController: UITableViewController {
         
         if editingStyle == .Delete {
             // Borramos los datos
-            // TODO: hacer la llamada al modelo
-            // TODO: solicitar confirmación antes de borrar
-            persons.removeObjectAtIndex(indexPath.row)
             
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            var refreshAlert = UIAlertController(title: "Eliminar", message: "Se eliminará el contacto.", preferredStyle: UIAlertControllerStyle.Alert)
+            
+            refreshAlert.addAction(UIAlertAction(title: "Borrar", style: .Default, handler: { (action: UIAlertAction!) in
+                // TODO: hacer la llamada al modelo
+                self.persons.removeObjectAtIndex(indexPath.row)
+                
+                // Delete the row from the data source
+                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            }))
+            
+            refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .Default, handler: { (action: UIAlertAction!) in
+                NSLog("Borrar cancelado")
+                // Ocultamos el botón de borrado
+                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Right)
+            }))
+            
+            presentViewController(refreshAlert, animated: true, completion: nil)
+            
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -161,6 +181,7 @@ class TableViewController: UITableViewController {
             } else {
                 let person = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as String
                 NSLog("Vamos a llamar a: %@", person)
+                makePhoneCall(person)
             }
         }
     }
