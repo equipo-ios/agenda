@@ -207,7 +207,6 @@
                     <navigationItem key="navigationItem" title="Detalle" id="xGN-FW-AmA">
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="pcO-aI-WpH">
                             <connections>
-                                <action selector="editPerson:" destination="iLC-pR-TwB" id="tLi-0H-zUu"/>
                                 <segue destination="m21-aE-2Pn" kind="show" identifier="Edit" id="Tgt-ry-l3z"/>
                             </connections>
                         </barButtonItem>
@@ -247,6 +246,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="eWq-cT-8pI"/>
+        <segue reference="Tgt-ry-l3z"/>
     </inferredMetricsTieBreakers>
 </document>
