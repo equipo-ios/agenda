@@ -13,7 +13,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="Celda" editingAccessoryType="detailDisclosureButton" textLabel="xhg-eT-Y95" detailTextLabel="vJp-BS-aME" style="IBUITableViewCellStyleSubtitle" id="tBD-nv-cLS">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="detailButton" indentationWidth="10" reuseIdentifier="Celda" editingAccessoryType="disclosureIndicator" textLabel="xhg-eT-Y95" detailTextLabel="vJp-BS-aME" style="IBUITableViewCellStyleSubtitle" id="tBD-nv-cLS">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tBD-nv-cLS" id="rJn-A9-bSM">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -33,8 +33,8 @@
                                     </subviews>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="iLC-pR-TwB" kind="show" identifier="Detail" id="J0R-4I-k7b"/>
-                                    <segue destination="m21-aE-2Pn" kind="show" identifier="EditAcc" trigger="accessoryAction" id="eWq-cT-8pI"/>
+                                    <segue destination="iLC-pR-TwB" kind="show" identifier="Detail" trigger="accessoryAction" id="0D3-rG-1Nl"/>
+                                    <segue destination="m21-aE-2Pn" kind="show" identifier="Edit" id="OQR-8x-mSb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -246,6 +246,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="TSL-Eq-WjO"/>
+        <segue reference="OQR-8x-mSb"/>
     </inferredMetricsTieBreakers>
 </document>
