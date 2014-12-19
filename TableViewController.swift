@@ -10,6 +10,17 @@ import UIKit
 
 class TableViewController: UITableViewController {
 
+    //var appController: AppDelegate?
+    let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+    var persons: NSArray = ["Uno", "Dos", "Tres", "Cuatro"] // datos de prueba
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        //appController = UIApplication.sharedApplication().delegate as AppDelegate
+        //persons = appDelegate.persons
+        tableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,7 +28,7 @@ class TableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -28,34 +39,32 @@ class TableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return persons.count
     }
 
-    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("Celda", forIndexPath: indexPath) as UITableViewCell
 
         // Configure the cell...
+        let person = persons[indexPath.row] as String
+        cell.textLabel.text = person
+        cell.detailTextLabel?.text = person
 
         return cell
     }
-    */
 
-    /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return NO if you do not want the specified item to be editable.
         return true
     }
-    */
+
 
     /*
     // Override to support editing the table view.
