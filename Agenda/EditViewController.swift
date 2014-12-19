@@ -20,6 +20,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     //var appDelegate: AppDelegate
     var person: Person?
+    var photoName: String?
     
     @IBAction func selectPhoto(sender: AnyObject) {
         //?? SavedPhotosAlbum o PhotoLibrary
@@ -36,10 +37,17 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
         let selectedImage : UIImage = image
-        //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
+        var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
         photoButton.imageView?.image=selectedImage
+        //guardar foto en el sandbox
+        
+        //cojo el nombre de la foto
+        var imagePath: NSURL = editingInfo[UIImagePickerControllerReferenceURL] as NSURL
+        photoName = imagePath.lastPathComponent
         dismissViewControllerAnimated(true, completion: nil)
+        
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,7 +57,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             name.text = person?.name
             phone.text = person?.phone
             score.text = "\(person?.score)"
-            geolocation.text = "Latitude: \(person?.latitude),  Longitude: \(person?.longitude)"
+            geolocation.text = "\(person?.latitude),  \(person?.longitude)"
             notes.text = person?.notes
         }
 
@@ -62,10 +70,27 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     @IBAction func savePerson(sender: UIBarButtonItem) {
-        
-        
+        if name.text != "" {
+            //coge los datos y los guarda en el modelo
+            person?.name = name.text
+            person?.phone = phone.text
+            person?.score = score.text.toInt()
+            person?.notes = notes.text
+            getCoordinates(geolocation.text)
+            person?.phone = photoName
+            
+        }
+        else {
+            var alert = UIAlertController(title: "Aviso", message: "El campo debe estar relleno", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
     }
 
+    func getCoordinates(coordenate:String){
+        //person?.latitude =
+        //person?.longitude =
+    }
     /*
     // MARK: - Navigation
 
