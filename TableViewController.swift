@@ -12,7 +12,7 @@ class TableViewController: UITableViewController {
 
     //var appController: AppDelegate?
     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-    var persons: NSArray = ["Uno", "Dos", "Tres", "Cuatro"] // datos de prueba
+    var persons: NSMutableArray = ["Uno", "Dos", "Tres", "Cuatro"] // datos de prueba
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -66,17 +66,35 @@ class TableViewController: UITableViewController {
     }
 
 
-    /*
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        /*
+        //Comenzamos
+        [tableView beginUpdates];
+        // Borramos los objetos desde el datasource
+        [self.appDelegate deleteObject:[self.fetchedRecordsArray objectAtIndex:indexPath.row]];
+        
+        // cogemos otra vez los registros
+        
+        self.fetchedRecordsArray=[self.appDelegate cogeDatos];
+        // borramos los registros de la tabla
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //  terminamos la edición
+        [self.tableView endUpdates];
+        */
+        
         if editingStyle == .Delete {
+            // Borramos los datos
+            // TODO: hacer la llamada al modelo
+            persons.removeObjectAtIndex(indexPath.row)
+            
             // Delete the row from the data source
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
-    */
 
     /*
     // Override to support rearranging the table view.
@@ -93,14 +111,45 @@ class TableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        /*
+        if ([[segue identifier] isEqualToString:@"Detalle"]) {
+            DetailViewController *vc = [segue destinationViewController];
+            Pelicula *pelicula = [self.fetchedRecordsArray objectAtIndex:[self.tableView indexPathForSelectedRow].row];
+            vc.pelicula = pelicula;
+        }
+        */
+                
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        if (segue.identifier == "Add") {
+            NSLog("Vamos al segue Add")
+            var vc: EditViewController = segue.destinationViewController as EditViewController
+            // Pasarle un nueva Person
+            //var p = Person()
+            //vc.person = p
+        }
+        
+        if (segue.identifier == "EditAcc") {
+            NSLog("Vamos al segue EditAcc")
+            var vc: EditViewController = segue.destinationViewController as EditViewController
+            // Pasarle la person de la Celda
+            //var p = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as Person
+            //vc.person = p
+        }
+        
+        if (segue.identifier == "Detail") {
+            NSLog("Vamos al segue Detail")
+            var vc: DetalleViewController = segue.destinationViewController as DetalleViewController
+            // Pasarle la person de la Celda
+            //var p = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as Person
+            //vc.person = p
+        }
+        
     }
-    */
-
+    
 }
