@@ -152,4 +152,25 @@ class TableViewController: UITableViewController {
         
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        // esto nos permite realizar el segue condicional
+        /*
+        // Find the selected cell in the usual way
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        // Check if this is the cell I want to segue from by using the reuseIdenifier
+        // which I set in the "Identifier" field in Interface Builder
+        if ([cell.reuseIdentifier isEqualToString:@"CellIWantToSegueFrom"]) {
+        
+            // Do my conditional logic - this was the whole point of changing the segue
+            if (myConditionForSegueIsSatisfied) {
+                // Perform the segue using the identifier I was careful to give it in IB
+                // Note I'm sending the cell as the sender because that's what the normal
+                // segue does and I already had code counting on that
+                [self performSegueWithIdentifier:@"SegueIdentifer" sender:cell];
+            }
+        }
+        */
+    }
+    
 }

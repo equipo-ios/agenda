@@ -34,7 +34,6 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <segue destination="iLC-pR-TwB" kind="show" identifier="Detail" trigger="accessoryAction" id="0D3-rG-1Nl"/>
-                                    <segue destination="m21-aE-2Pn" kind="show" identifier="Edit" id="OQR-8x-mSb"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -51,6 +50,9 @@
                         </barButtonItem>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <segue destination="m21-aE-2Pn" kind="show" identifier="Edit" id="jxI-VK-EjE"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vPe-Cp-DEl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -246,6 +248,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="OQR-8x-mSb"/>
+        <segue reference="jxI-VK-EjE"/>
     </inferredMetricsTieBreakers>
 </document>
