@@ -74,7 +74,7 @@ func addPersonData(personInfo: PersonInfo) -> Bool {
     person.latitude = txtlatitude.text
     person.longitude = txtlongitude.text
     
-    var isInserted = ModelManager.instance.addStudentData(studentInfo)
+    var isInserted = ModelManager.instance.addPersonData(personInfo)
     if isInserted {
         Util.invokeAlertMethod("", strBody: "Record Inserted successfully.", delegate: nil)
     } else {
@@ -103,34 +103,46 @@ func updatePersonData(personInfo: PersonInfo) -> Bool {
 
 
 @IBAction func btnUpdateClicked(sender: AnyObject) {
-    var studentInfo: StudentInfo = StudentInfo()
-    studentInfo.studentRollNo = txtRollNo.text
-    studentInfo.studentName = txtName.text
+    var persontInfo: PersontInfo = PersonInfo()
+    personInfo.personRollNo = txtRollNo.text
+    personInfo.personName = txtName.text
     
-    var isUpdated = ModelManager.instance.updateStudentData(studentInfo)
+    var isUpdated = ModelManager.instance.updatePersonData(personInfo)
     if isUpdated {
         Util.invokeAlertMethod("", strBody: "Record updated successfully.", delegate: nil)
     } else {
         Util.invokeAlertMethod("", strBody: "Error in updating record.", delegate: nil)
     }
-    txtRollNo.text = ""
-    txtName.text = ""
-    txtRollNo.becomeFirstResponder()
+    txtname.text = ""
+    txtphone.text = ""
+    txtphoto.text = ""
+    txtscore.text = ""
+    txtnotes.text = ""
+    txtlatitude.text = ""
+    txtlongitude.text = ""
+    
+    txtname.becomeFirstResponder()
 }
 
 // BORRAR
 
-func deleteStudentData(studentInfo: StudentInfo) -> Bool {
+func deleteData(persontInfo: PersonInfo) -> Bool {
     sharedInstance.database!.open()
-    let isDeleted = sharedInstance.database!.executeUpdate("DELETE FROM StudentInfo WHERE student_rollno=?", withArgumentsInArray: [studentInfo.studentRollNo])
+    let isDeleted = sharedInstance.database!.executeUpdate("DELETE FROM PersonInfo WHERE name=?", withArgumentsInArray: [personInfo.name])
     sharedInstance.database!.close()
     return isDeleted
 }
 
 @IBAction func btnDeleteClicked(sender: AnyObject) {
-    var studentInfo: StudentInfo = StudentInfo()
-    studentInfo.studentRollNo = txtRollNo.text
-    studentInfo.studentName = txtName.text
+    var personInfo: PersonInfo = PersonInfo()
+    personInfo.name = txtname.text
+    personInfo.phone = txtphone.text
+    personInfo.photo = txtphoto.text
+    personInfo.score = txtscore.text
+    personInfo.notes = txtnotes.text
+    personInfo.latitude = txtlatitude.text
+    personInfo.longitude = txtlongitude.text
+    
     
     var isDeleted = ModelManager.instance.deletePersontData(personInfo)
     if isDeleted {
