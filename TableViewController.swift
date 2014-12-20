@@ -11,7 +11,19 @@ import UIKit
 class TableViewController: UITableViewController {
 
     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-    var persons: NSMutableArray = ["Uno", "Dos", "Tres", "Cuatro"] // datos de prueba
+    
+    typealias fakePerson = (
+        name: String,
+        phone: String,
+        photo: String,
+        score: Int,
+        notes: String,
+        latitude: Double,
+        longitude: Double
+    )
+    
+    //var persons: NSMutableArray = ["Uno", "Dos", "Tres", "Cuatro"] // datos de prueba
+    var persons = [fakePerson]()
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,6 +46,7 @@ class TableViewController: UITableViewController {
         // no mostramos los separadores de las celdas vacías
         self.tableView.tableFooterView = UIView(frame:CGRectZero)
         
+        self.populateFakeData()
         //self.persons = [] // para probar que se muestra el mensaje de no hay datos
     }
 
@@ -42,10 +55,28 @@ class TableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    // MARK: - Auxiliary functions
+    
+    func populateFakeData() {
+        for (var i = 0; i < 10; i++) {
+            var person: fakePerson = fakePerson(
+                name: "Persona \(i)",
+                phone: "55500\(i)",
+                photo: "hombre01.png",
+                score: 10 - i,
+                notes: "Una nota para la persona \(i)",
+                latitude: 12.5 + Double(i),
+                longitude: 9.8 + Double(i)
+            )
+            
+            self.persons.append(person)
+        }
+    }
+    
     func makePhoneCall(phone: String) {
-        NSLog("Llamando")
-        let phone = "tel://982374234"
-        let url: NSURL = NSURL(string: phone)!
+        NSLog("Llamando a \(phone)")
+        let phoneURL = "tel://\(phone)"
+        let url: NSURL = NSURL(string: phoneURL)! // PELIGRO: si phone no es un número válido "casca"
         UIApplication.sharedApplication().openURL(url)
     }
 
@@ -53,7 +84,7 @@ class TableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        if (persons.count == 0) {
+        if (persons.count == 0) { // No hay datos, mostramos un mensaje
             let messageLabel = UILabel(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
             messageLabel.text = "No hay contactos"
             messageLabel.textColor = UIColor.blackColor()
@@ -77,9 +108,10 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Celda", forIndexPath: indexPath) as UITableViewCell
 
         // Configure the cell...
-        let person = persons[indexPath.row] as String
-        cell.textLabel.text = person
-        cell.detailTextLabel?.text = person
+        let person = persons[indexPath.row]
+        cell.textLabel.text = person.name
+        cell.detailTextLabel?.text = "☎︎ \(person.phone) 😘 \(person.score)"
+        cell.imageView.image = UIImage(named: person.photo)
 
         return cell
     }
@@ -109,14 +141,16 @@ class TableViewController: UITableViewController {
         [self.tableView endUpdates];
         */
         
+        let person = self.persons[indexPath.row]
+        
         if editingStyle == .Delete {
             // Borramos los datos
             
-            var refreshAlert = UIAlertController(title: "Eliminar", message: "Se eliminará el contacto.", preferredStyle: UIAlertControllerStyle.Alert)
+            var refreshAlert = UIAlertController(title: "Eliminar", message: "Se eliminará el contacto \(person.name).", preferredStyle: UIAlertControllerStyle.Alert)
             
             refreshAlert.addAction(UIAlertAction(title: "Borrar", style: .Default, handler: { (action: UIAlertAction!) in
                 // TODO: hacer la llamada al modelo
-                self.persons.removeObjectAtIndex(indexPath.row)
+                self.persons.removeAtIndex(indexPath.row)
                 
                 // Delete the row from the data source
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -132,6 +166,14 @@ class TableViewController: UITableViewController {
             
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+        }
+    }
+    
+    // pintamos las celdas de colores alternos
+    override func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (indexPath.row % 2 == 0) {
+            cell.backgroundColor = UIColor(white: 0.7, alpha: 0.1)
+            tableView.backgroundView = nil // quitamos el aviso de no hay datos porque se "transparenta"
         }
     }
 
@@ -194,9 +236,9 @@ class TableViewController: UITableViewController {
             if self.tableView.editing {
                 self.performSegueWithIdentifier("Edit", sender: cell)
             } else {
-                let person = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as String
-                NSLog("Vamos a llamar a: %@", person)
-                makePhoneCall(person)
+                let person = self.persons[tableView.indexPathForSelectedRow()!.row]
+                NSLog("Vamos a llamar a: %@", person.name)
+                makePhoneCall(person.phone)
             }
         }
     }
