@@ -16,7 +16,7 @@ class TableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         //persons = appDelegate.loadData()
-        tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     override func viewDidLoad() {
@@ -30,6 +30,11 @@ class TableViewController: UITableViewController {
         
         // MUY IMPORTANTE: si no se especifica la siguiente propiedad no se pueden seleccionar celdas en el modo de edición
         self.tableView.allowsSelectionDuringEditing = true
+        
+        // no mostramos los separadores de las celdas vacías
+        self.tableView.tableFooterView = UIView(frame:CGRectZero)
+        
+        //self.persons = [] // para probar que se muestra el mensaje de no hay datos
     }
 
     override func didReceiveMemoryWarning() {
@@ -48,6 +53,18 @@ class TableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
+        if (persons.count == 0) {
+            let messageLabel = UILabel(frame: CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height))
+            messageLabel.text = "No hay contactos"
+            messageLabel.textColor = UIColor.blackColor()
+            messageLabel.numberOfLines = 0
+            messageLabel.textAlignment = NSTextAlignment.Center
+            messageLabel.font = UIFont(name: "Palatino-Italic", size: 20)
+            messageLabel.sizeToFit()
+            
+            self.tableView.backgroundView = messageLabel
+        }
+        
         return 1
     }
 
@@ -106,7 +123,7 @@ class TableViewController: UITableViewController {
             }))
             
             refreshAlert.addAction(UIAlertAction(title: "Cancelar", style: .Default, handler: { (action: UIAlertAction!) in
-                NSLog("Borrar cancelado")
+                NSLog("Borrado cancelado")
                 // Ocultamos el botón de borrado
                 self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Right)
             }))
