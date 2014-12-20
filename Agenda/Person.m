@@ -80,16 +80,22 @@ func addPersonData(personInfo: PersonInfo) -> Bool {
     } else {
         Util.invokeAlertMethod("", strBody: "Error in inserting record.", delegate: nil)
     }
-    txtRollNo.text = ""
-    txtName.text = ""
-    txtRollNo.becomeFirstResponder()
+    txtname.text = ""
+    txtphoto.text = ""
+    txtphone.text = ""
+    
+    txtscore.text = ""
+    txtnotes.text = ""
+    txtlatitude.text = ""
+    txtlongitude.text = ""
+    txtname.becomeFirstResponder()
 }
 
 // ACTUALIZACION
 
-func updateStudentData(studentInfo: StudentInfo) -> Bool {
+func updatePersonData(personInfo: PersonInfo) -> Bool {
     sharedInstance.database!.open()
-    let isUpdated = sharedInstance.database!.executeUpdate("UPDATE StudentInfo SET student_name=? WHERE student_rollno=?", withArgumentsInArray: [studentInfo.studentName, studentInfo.studentRollNo])
+    let isUpdated = sharedInstance.database!.executeUpdate("UPDATE PersonInfo SET name=? WHERE photo=?", withArgumentsInArray: [personInfo.name, personInfo.phone, personInfo.photo, personInfo.score, personInfo.notes, personInfo.latitude, personInfo.longitude])
     sharedInstance.database!.close()
     return isUpdated
 }
