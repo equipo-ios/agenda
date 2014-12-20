@@ -10,14 +10,12 @@ import UIKit
 
 class TableViewController: UITableViewController {
 
-    //var appController: AppDelegate?
     let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
     var persons: NSMutableArray = ["Uno", "Dos", "Tres", "Cuatro"] // datos de prueba
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        //appController = UIApplication.sharedApplication().delegate as AppDelegate
-        //persons = appDelegate.persons
+        //persons = appDelegate.loadData()
         tableView.reloadData()
     }
     
@@ -31,7 +29,7 @@ class TableViewController: UITableViewController {
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
         
         // MUY IMPORTANTE: si no se especifica la siguiente propiedad no se pueden seleccionar celdas en el modo de edición
-        tableView.allowsSelectionDuringEditing = true
+        self.tableView.allowsSelectionDuringEditing = true
     }
 
     override func didReceiveMemoryWarning() {
@@ -42,7 +40,7 @@ class TableViewController: UITableViewController {
     func makePhoneCall(phone: String) {
         NSLog("Llamando")
         let phone = "tel://982374234"
-        let url: NSURL = NSURL(string:phone)!
+        let url: NSURL = NSURL(string: phone)!
         UIApplication.sharedApplication().openURL(url)
     }
 
