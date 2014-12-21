@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    var modelName = "Agenda"
+    var dbFileName = "Agenda.sqlite"
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
@@ -62,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it. This property is optional since there are legitimate error conditions that could cause the creation of the store to fail.
         // Create the coordinator and store
         var coordinator: NSPersistentStoreCoordinator? = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent("Agenda.sqlite")
+        let url = self.applicationDocumentsDirectory.URLByAppendingPathComponent(self.dbFileName)
         var error: NSError? = nil
         var failureReason = "There was an error creating or loading the application's saved data."
         if coordinator!.addPersistentStoreWithType(NSSQLiteStoreType, configuration: nil, URL: url, options: nil, error: &error) == nil {
@@ -105,6 +107,51 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 abort()
             }
         }
+    }
+    
+    // MARK: - Functions for entities management
+    
+    func deleteObject (entity: NSManagedObject) {
+        self.managedObjectContext?.deleteObject(entity)
+        self.saveContext()
+    }
+    
+    func createObject (entity: String) -> NSManagedObject {
+        let object: NSManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity, inManagedObjectContext: self.managedObjectContext!) as NSManagedObject
+        return object
+    }
+    
+    func loadData () -> [NSManagedObject] {
+        /*
+        // initializing NSFetchRequest
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        
+        //Setting Entity to be Queried
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Pelicula"
+        inManagedObjectContext:self.managedObjectContext];
+        [fetchRequest setEntity:entity];
+        NSError* error;
+        
+        // Query on managedObjectContext With Generated fetchRequest
+        NSArray *fetchedRecords = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        
+        // Returning Fetched Records
+        return fetchedRecords;
+        */
+        
+        // initializing NSFetchRequest
+        var fetchRequest: NSFetchRequest = NSFetchRequest()
+        
+        //Setting Entity to be Queried
+        var entity: NSEntityDescription = NSEntityDescription.entityForName("Person", inManagedObjectContext: self.managedObjectContext!)!
+        fetchRequest.entity = entity
+        
+        // Query on managedObjectContext With Generated fetchRequest
+        var error: NSError? = nil
+        var fetchedRecords: [NSManagedObject] = self.managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]!
+        
+        // Returning Fetched Records
+        return fetchedRecords
     }
 
 }
