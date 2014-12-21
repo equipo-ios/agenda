@@ -22,22 +22,28 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var person: Person?
     var photoName: String?
     
+    //Accion al pinchar la foto -> permite selccionar otra foto
     @IBAction func selectPhoto(sender: AnyObject) {
-        //?? SavedPhotosAlbum o PhotoLibrary
-        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
-            NSLog("Button capture")
-            var imag = UIImagePickerController()
-            imag.delegate = self
+        NSLog("Botón seleccionar foto")
+        var imag = UIImagePickerController()
+        //Si hay camara abre la app para sacar foto
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
+            imag.sourceType = UIImagePickerControllerSourceType.Camera;
+        } //si no hay camara abre la galeria para seleccionar una foto
+        else {
             imag.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
-            //imag.mediaTypes = [kUTTypeImage];
-            imag.allowsEditing = false
-            presentViewController(imag, animated: true, completion: nil)
         }
+        imag.delegate = self
+        //imag.mediaTypes = [kUTTypeImage];
+        imag.allowsEditing = false
+        presentViewController(imag, animated: true, completion: nil)
+        
     }
     
+    //Si ha seleccionado otra foto
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
         let selectedImage : UIImage = image
-        var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
+        //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
         photoButton.imageView?.image=selectedImage
         //guardar foto en el sandbox
         
@@ -45,9 +51,12 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         var imagePath: NSURL = editingInfo[UIImagePickerControllerReferenceURL] as NSURL
         photoName = imagePath.lastPathComponent
         dismissViewControllerAnimated(true, completion: nil)
-        
     }
     
+    //
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -77,7 +86,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             person?.score = score.text.toInt()
             person?.notes = notes.text
             getCoordinates(geolocation.text)
-            person?.phone = photoName
+            person?.photo = photoName
             
         }
         else {
