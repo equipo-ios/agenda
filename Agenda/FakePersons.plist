@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>Bob Esponja</string>
+		<key>phone</key>
+		<string>94512346</string>
+		<key>photo</key>
+		<string>bob.png</string>
+		<key>score</key>
+		<integer>4</integer>
+		<key>notes</key>
+		<string>Vive en una piña</string>
+		<key>latitude</key>
+		<integer>11</integer>
+		<key>longitude</key>
+		<integer>12</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Patricio</string>
+		<key>phone</key>
+		<string>661347658</string>
+		<key>photo</key>
+		<string>patricio.png</string>
+		<key>score</key>
+		<integer>2</integer>
+		<key>notes</key>
+		<string>Es amigo de Bob Esponja</string>
+		<key>latitude</key>
+		<integer>10</integer>
+		<key>longitude</key>
+		<integer>11</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Arenita</string>
+		<key>phone</key>
+		<string>945678901</string>
+		<key>photo</key>
+		<string>arenita.png</string>
+		<key>score</key>
+		<integer>5</integer>
+		<key>notes</key>
+		<string>Es de Texas</string>
+		<key>latitude</key>
+		<integer>20</integer>
+		<key>longitude</key>
+		<integer>35</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Señor cangrejo</string>
+		<key>phone</key>
+		<string>666345278</string>
+		<key>photo</key>
+		<string>cangrejo.png</string>
+		<key>score</key>
+		<integer>2</integer>
+		<key>notes</key>
+		<string>Es el dueño del Krustaceo Krugiente</string>
+		<key>latitude</key>
+		<integer>89</integer>
+		<key>longitude</key>
+		<integer>115</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Plankton</string>
+		<key>phone</key>
+		<string>765908321</string>
+		<key>photo</key>
+		<string>plankton.png</string>
+		<key>score</key>
+		<integer>0</integer>
+		<key>notes</key>
+		<string>Se lleva mal con el Señor Cangrejo</string>
+		<key>latitude</key>
+		<integer>67</integer>
+		<key>longitude</key>
+		<integer>88</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>Calamardo</string>
+		<key>phone</key>
+		<string>945673487</string>
+		<key>photo</key>
+		<string>calamardo.png</string>
+		<key>score</key>
+		<integer>3</integer>
+		<key>notes</key>
+		<string>Toca la flauta</string>
+		<key>latitude</key>
+		<integer>13</integer>
+		<key>longitude</key>
+		<integer>14</integer>
+	</dict>
+</array>
+</plist>

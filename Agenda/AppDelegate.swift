@@ -16,6 +16,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var modelName = "Agenda"
     var dbFileName = "Agenda.sqlite"
+    
+    override init() {
+        super.init()
+        // TODO: Leer datos por defecto solo si no existe la base de datos
+        // get URL to the the documents directory in the sandbox
+        let bundlePath = NSBundle.mainBundle().pathForResource("FakePersons", ofType: "plist")!
+        var personsFromPlist = NSArray(contentsOfFile: bundlePath)!
+        //NSLog("%@", personsFromPlist)
+        NSLog("Datos por defecto leídos")
+        
+        // comprobamos si ya existe una base de datos
+        let docPath: String = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let dbPath = docPath.stringByAppendingPathComponent(self.dbFileName)
+        
+        if(!NSFileManager.defaultManager().fileExistsAtPath(dbPath)) { // no hay base de datos previa
+            // guardamos los datos iniciales mediante Core Data
+            for personFromPlist in personsFromPlist {
+                var person = self.createObject("Person") as Person
+                person.name = personFromPlist.valueForKey("name") as String
+                person.phone = personFromPlist.valueForKey("phone") as String
+                person.photo = personFromPlist.valueForKey("photo") as String
+                person.score = personFromPlist.valueForKey("score") as Int
+                person.notes = personFromPlist.valueForKey("notes") as String
+                person.latitude = personFromPlist.valueForKey("latitude") as Double
+                person.longitude = personFromPlist.valueForKey("longitude") as Double
+            }
+            self.saveContext()
+            NSLog("Datos por defecto guardados")
+        }
+    }
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
