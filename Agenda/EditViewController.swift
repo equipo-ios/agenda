@@ -21,6 +21,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //var appDelegate: AppDelegate
     var person: Person?
     var photoName: String?
+    var photoNew: UIImage? //guarda la foto seleccionada
     
     //Accion al pinchar la foto -> permite selccionar otra foto
     @IBAction func selectPhoto(sender: AnyObject) {
@@ -28,28 +29,48 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         var imag = UIImagePickerController()
         //Si hay camara abre la app para sacar foto
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera){
-            imag.sourceType = UIImagePickerControllerSourceType.Camera;
+            imag.sourceType = UIImagePickerControllerSourceType.Camera
+            imag.showsCameraControls = true
         } //si no hay camara abre la galeria para seleccionar una foto
+        else if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.PhotoLibrary){
+            imag.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
+        } //si no hay camara y photoLibrary no está disponible
         else {
-            imag.sourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+            var alert = UIAlertController(title: "Aviso", message: "Galeria de fotos no disponible", preferredStyle: UIAlertControllerStyle.Alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
+            self.presentViewController(alert, animated: true, completion: nil)
+            return
         }
         imag.delegate = self
         //imag.mediaTypes = [kUTTypeImage];
         imag.allowsEditing = false
         presentViewController(imag, animated: true, completion: nil)
-        
     }
     
-    //Si ha seleccionado otra foto
+    //Si ha seleccionado una foto, la carga en el boton
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+        photoNew = info[UIImagePickerControllerOriginalImage] as? UIImage
+        photoButton.imageView?.image = photoNew
+        //si la foto fue sacada con la camara la guarda en photolibray
+        /*if picker.sourceType == UIImagePickerControllerSourceType.Camera {
+            UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as? UIImage, nil, nil, nil)
+        }*/
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
-        let selectedImage : UIImage = image
         //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
-        photoButton.imageView?.image=selectedImage
-        //guardar foto en el sandbox
+        photoButton.imageView?.image=image
+        photoNew = image
+        //si la foto fue sacada con la camara, la guarda en photolibray
+        /*if picker.sourceType == UIImagePickerControllerSourceType.Camera {
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+        }*/
+        
         
         //cojo el nombre de la foto
-        var imagePath: NSURL = editingInfo[UIImagePickerControllerReferenceURL] as NSURL
-        photoName = imagePath.lastPathComponent
+        /*var imagePath: NSURL = editingInfo[UIImagePickerControllerReferenceURL] as NSURL
+        photoName = imagePath.lastPathComponent*/
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -80,6 +101,8 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func savePerson(sender: UIBarButtonItem) {
         if name.text != "" {
+            //guardar foto en el sandbox
+            
             //coge los datos y los guarda en el modelo
             person?.name = name.text
             person?.phone = phone.text
@@ -96,6 +119,12 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
 
+    //función para dar nombres a las fotos
+    func newPhotoName(name: String) -> String {
+        name = name.stringByTrimmingCharactersInSet()
+        return name
+    }
+    
     func getCoordinates(coordenate:String){
         //person?.latitude =
         //person?.longitude =
