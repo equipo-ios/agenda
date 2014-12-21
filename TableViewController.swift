@@ -224,10 +224,9 @@ class TableViewController: UITableViewController {
             NSLog("Vamos al segue Detail")
             var vc: DetalleViewController = segue.destinationViewController as DetalleViewController
             // Pasarle la person de la Celda
-            //var p = self.persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as Person
-            var index = tableView.indexPathForSelectedRow()!.row
-            
-            NSLog("Vamos a recuperar la celda: \(index)")
+            // NOTA: hacer tap en el accesorio de una celda no la selecciona
+            // no se puede usar indexPathForSelectedRow pero el sender es la celda
+            var index = tableView.indexPathForCell(sender as UITableViewCell)!.row
             var person = self.persons[index] as Person
             NSLog("Vamos a mostrar a: \(person.name)")
             vc.person = person
@@ -235,15 +234,17 @@ class TableViewController: UITableViewController {
         
     }
     
+    /*
     override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         NSLog("Tap en el accesorio de la celda con índice: \(indexPath.row)")
     }
+    */
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         // esto nos permite realizar el segue condicional
         // en función del modo de la tabla (editar - normal)
         
-        let cell = tableView.cellForRowAtIndexPath(indexPath)!
+        let cell = tableView.cellForRowAtIndexPath(indexPath)! as UITableViewCell
         
         if cell.reuseIdentifier == "Celda" {
             if self.tableView.editing {
