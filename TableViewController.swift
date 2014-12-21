@@ -22,12 +22,13 @@ class TableViewController: UITableViewController {
         longitude: Double
     )
     
-    //var persons: NSMutableArray = ["Uno", "Dos", "Tres", "Cuatro"] // datos de prueba
-    var persons = [fakePerson]()
+    var fakePersons = [fakePerson]() // datos de prueba
+    //var persons = [fakePerson]() // datos de prueba
+    var persons: [NSManagedObject] = []
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        //persons = appDelegate.loadData()
+        self.persons = self.appDelegate.loadData()
         self.tableView.reloadData()
     }
     
@@ -46,7 +47,7 @@ class TableViewController: UITableViewController {
         // no mostramos los separadores de las celdas vacías
         self.tableView.tableFooterView = UIView(frame:CGRectZero)
         
-        self.populateFakeData()
+        //self.populateFakeData() // cargar datos de prueba
         //self.persons = [] // para probar que se muestra el mensaje de no hay datos
     }
 
@@ -69,7 +70,7 @@ class TableViewController: UITableViewController {
                 longitude: 9.8 + Double(i)
             )
             
-            self.persons.append(person)
+            self.fakePersons.append(person)
         }
     }
     
@@ -108,7 +109,7 @@ class TableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("Celda", forIndexPath: indexPath) as UITableViewCell
 
         // Configure the cell...
-        let person = persons[indexPath.row]
+        let person = persons[indexPath.row] as Person
         cell.textLabel.text = person.name
         cell.detailTextLabel?.text = "☎︎ \(person.phone) 😘 \(person.score)"
         cell.imageView.image = UIImage(named: person.photo)
@@ -141,7 +142,7 @@ class TableViewController: UITableViewController {
         [self.tableView endUpdates];
         */
         
-        let person = self.persons[indexPath.row]
+        let person = self.persons[indexPath.row] as Person
         
         if editingStyle == .Delete {
             // Borramos los datos
@@ -150,7 +151,9 @@ class TableViewController: UITableViewController {
             
             refreshAlert.addAction(UIAlertAction(title: "Borrar", style: .Default, handler: { (action: UIAlertAction!) in
                 // TODO: hacer la llamada al modelo
-                self.persons.removeAtIndex(indexPath.row)
+                //self.persons.removeAtIndex(indexPath.row)
+                self.appDelegate.deleteObject(person)
+                self.persons = self.appDelegate.loadData()
                 
                 // Delete the row from the data source
                 tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -204,26 +207,36 @@ class TableViewController: UITableViewController {
             NSLog("Vamos al segue Add")
             var vc: EditViewController = segue.destinationViewController as EditViewController
             // Pasarle una nueva Person
-            //var p = Person()
-            //vc.person = p
+            var person = self.appDelegate.createObject("Person") as Person
+            person.name = ""
+            vc.person = person
         }
         
         if (segue.identifier == "Edit") {
             NSLog("Vamos al segue Edit")
             var vc: EditViewController = segue.destinationViewController as EditViewController
             // Pasarle la person de la Celda
-            //var p = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as Person
-            //vc.person = p
+            var person = persons[tableView.indexPathForSelectedRow()!.row] as Person
+            vc.person = person
         }
         
         if (segue.identifier == "Detail") {
             NSLog("Vamos al segue Detail")
             var vc: DetalleViewController = segue.destinationViewController as DetalleViewController
             // Pasarle la person de la Celda
-            //var p = persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as Person
-            //vc.person = p
+            //var p = self.persons.objectAtIndex(tableView.indexPathForSelectedRow()!.row) as Person
+            var index = tableView.indexPathForSelectedRow()!.row
+            
+            NSLog("Vamos a recuperar la celda: \(index)")
+            var person = self.persons[index] as Person
+            NSLog("Vamos a mostrar a: \(person.name)")
+            vc.person = person
         }
         
+    }
+    
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        NSLog("Tap en el accesorio de la celda con índice: \(indexPath.row)")
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -236,7 +249,7 @@ class TableViewController: UITableViewController {
             if self.tableView.editing {
                 self.performSegueWithIdentifier("Edit", sender: cell)
             } else {
-                let person = self.persons[tableView.indexPathForSelectedRow()!.row]
+                let person = self.persons[tableView.indexPathForSelectedRow()!.row] as Person
                 NSLog("Vamos a llamar a: %@", person.name)
                 makePhoneCall(person.phone)
             }
