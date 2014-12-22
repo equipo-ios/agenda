@@ -17,15 +17,14 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var notes: UITextField!
     @IBOutlet weak var geolocation: UITextField!
     
-    var appDelegate: AppDelegate
+    var appDelegate: AppDelegate?
     var person: Person?
-    var photoName: String?
     var photoNew: UIImage? //guarda la foto seleccionada
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if (person!.name != "") {
             title = "Editar"
             photoButton.imageView?.image = UIImage(named: person!.photo)
@@ -105,16 +104,19 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBAction func savePerson(sender: UIBarButtonItem) {
         if name.text != "" {
             //guardar foto en el sandbox
-            savePhotoToSandBox(name.text)
+            if photoNew != nil {
+                savePhotoToSandBox()
+            }
             //coge los datos y los guarda en el modelo
             person?.name = name.text
             person?.phone = phone.text
             person?.score = score.text.toInt()
             person?.notes = notes.text
             getCoordinates(geolocation.text)
-            person?.photo = photoName
+            
             //actualiza base de datos
-            appDelegate.saveContext()
+            appDelegate!.saveContext()
+            
             //vuelve a la tableView
             navigationController?.popToRootViewControllerAnimated(true)
         }
@@ -126,10 +128,33 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
 
     //función para guardar la foto en el sandbox
-    func savePhotoToSandBox(name:String){
-        var photoName = name.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
-        
+    func savePhotoToSandBox(){
+        var photoData: NSData = UIImageJPEGRepresentation(photoNew, 0.4)
+        //??????var imageURL: NSURL = appDelegate.imageURL
+        var imageURL: NSURL = appDelegate!.applicationDocumentsDirectory
+        var fileName: String
+        //verifica si es Añadir
+        if(person?.photo == nil){
+            fileName = uniqueFileName()
+            
+        }else {
+            fileName = person!.photo
+        }
+        imageURL.URLByAppendingPathComponent(fileName)
+        person?.photo = imageURL.absoluteString
+        photoData.writeToURL(imageURL, atomically: true)
     }
+    
+    
+    //crea un nombre unico para cada imagen <nombre del contacto>_<fecha instantanea ddMMyyHHmmss>.jpg
+    func uniqueFileName()-> String {
+        var photoName = name.text.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        var ddMMyyHHmmss: NSDateFormatter = NSDateFormatter()
+        ddMMyyHHmmss.dateFormat = "ddMMyyHHmmss"
+        var photoFileName: String = "\(photoName)_\(ddMMyyHHmmss.stringFromDate(NSDate())).jpg"
+        return photoFileName
+    }
+
     
     func getCoordinates(coordenate:String){
         //person?.latitude =
