@@ -25,15 +25,24 @@ class DetalleViewController: UIViewController {
 
         // Do any additional setup after loading the view.
         if person?.photo != nil {
-            photo.image = UIImage(named: person!.photo)
+            //photo.image = UIImage(named: person!.photo)
+            if (person!.photo).lastPathComponent.hasSuffix(".png") {
+                photo.image = UIImage(named: person!.photo)
+            }else{
+                photo.image = UIImage(contentsOfFile: person!.photo)
+            }
         }else{
             photo.image = UIImage(named: "hombre01")
         }
-        name.text = person?.name
-        phone.text = person?.phone
-        score.text = "\(person?.score)"
-        geolocation.text = "Latitude: \(person?.latitude),  Longitude: \(person?.longitude)"
-        notes.text = person?.notes
+        name.text = person!.name
+        phone.text = person!.phone
+        if person!.score != nil {
+            score.text = "\(person!.score)"
+        }else {
+            score.text = ""
+        }
+        geolocation.text = "Lat: \(person!.latitude),  Long: \(person!.longitude)"
+        notes.text = person!.notes
     }
 
     override func didReceiveMemoryWarning() {
