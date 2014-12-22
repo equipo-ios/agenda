@@ -22,7 +22,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var appDelegate: AppDelegate?
     var person: Person?
     var photoNew: UIImage? //guarda la foto seleccionada
-    var photopath: String? //guarda el path de la foto
+    var photopath: NSString? //guarda el path de la foto
     
     
     override func viewDidLoad() {
@@ -83,8 +83,12 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if picker.sourceType == UIImagePickerControllerSourceType.Camera {
             UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as? UIImage, nil, nil, nil)
         }
-        photopath = info[UIImagePickerControllerReferenceURL] as? String
-        NSLog(photopath!)
+        photopath = info[UIImagePickerControllerReferenceURL] as? NSString
+        if photopath == nil {
+            NSLog("photopath = nil")
+        
+        }
+        
         
         dismissViewControllerAnimated(true, completion: nil)
     }
