@@ -22,7 +22,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var appDelegate: AppDelegate?
     var person: Person?
     var photoNew: UIImage? //guarda la foto seleccionada
-    var photopath: String? //guarda el path de la foto
+    var photopath: NSURL? //guarda el path de la foto
     
     
     override func viewDidLoad() {
@@ -36,11 +36,24 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         if (person != nil) {
             title = "Editar"
             //photoButton.imageView?.image = UIImage(named: person!.photo)
-            photoButton.setBackgroundImage(UIImage(named: person!.photo), forState: .Normal)
+            if person!.photo != nil{
+                NSLog("ViewDidLoad person.photo: "+person!.photo)
+                photoButton.setTitle("", forState: .Normal)
+                //var photo: UIImage = UIImage(named:person!.photo)! as UIImage
+                //photoButton.setBackgroundImage(UIImage(named:person!.photo), forState: .Normal)
+                if (person!.photo).lastPathComponent.hasSuffix(".png") {
+                    photoButton.setBackgroundImage(UIImage(named: person!.photo), forState: .Normal)
+                }else{
+                    photoButton.setBackgroundImage(UIImage(contentsOfFile: person!.photo), forState: .Normal)
+                }
+                /*var filePath: NSURL = NSURL(fileURLWithPath: person!.photo)!
+                NSLog(filePath.absoluteString!)
+                var dataImage:NSData = NSData(contentsOfURL: filePath)!
+                photoButton.setBackgroundImage(UIImage(data: dataImage), forState: .Normal)*/
+              }
             name.text = person!.name
             phone.text = person!.phone
             score.text = "\(person!.score)"
-//            geolocation.text = "\(person!.latitude),  \(person!.longitude)"
             latitude.text = "\(person!.latitude)"
             longitude.text = "\(person!.longitude)"
             notes.text = person?.notes
@@ -53,8 +66,6 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
-    
     
     //Accion al pinchar la foto -> permite selccionar otra foto
     @IBAction func selectPhoto(sender: AnyObject) {
@@ -83,54 +94,29 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //Si ha seleccionado una foto, la carga en el boton
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         photoNew = info[UIImagePickerControllerOriginalImage] as? UIImage
-        
         photoButton.setBackgroundImage(photoNew, forState: .Normal)
-        //si la foto fue sacada con la camara la guarda en photolibray
-        if picker.sourceType == UIImagePickerControllerSourceType.Camera {
-            UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as? UIImage, nil, nil, nil)
-        }
-        //NSLog(info.description)
-        photopath = (info[UIImagePickerControllerReferenceURL] as? NSURL)?.absoluteString
-        if photopath == nil {
-            NSLog("photopath = nil")
-        }else {
-            NSLog(photopath!)
-        }
-
+        photoButton.setTitle("", forState: .Normal)
         dismissViewControllerAnimated(true, completion: nil)
     }
-    
-    //????
-//    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
-        //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
-//        photoButton.setBackgroundImage(image, forState: .Normal)
-//        photoNew = image
-        //si la foto fue sacada con la camara, la guarda en photolibray
-        /*if picker.sourceType == UIImagePickerControllerSourceType.Camera {
-            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
-        }*/
-        
-        //cojo el nombre de la foto
-        /*var imagePath: NSURL = editingInfo[UIImagePickerControllerReferenceURL] as NSURL
-        photoName = imagePath.lastPathComponent*/
-//        dismissViewControllerAnimated(true, completion: nil)
-//    }
     
     //
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    //Acción del botón Save
     @IBAction func savePerson(sender: UIBarButtonItem) {
+        //El nombre es obligatorio
         if name.text != "" {
+            //si es añadir, hay que crear el objeto person
             if person == nil {
                 person = appDelegate?.createObject("Person") as? Person
             }
             //guardar foto
             if photoNew != nil {
-                //savePhotoToSandBox()
-                person?.photo=photopath
-                NSLog("savePerson photopath: "+photopath!)
+                savePhotoToSandBox()
+                /*person?.photo=photopath
+                NSLog("savePerson photopath: "+photopath!)*/
             }
             //coge los datos y los guarda en el modelo
             person?.name = name.text
@@ -148,7 +134,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             navigationController?.popToRootViewControllerAnimated(true)
         }
         else {
-            var alert = UIAlertController(title: "Aviso", message: "El campo debe estar relleno", preferredStyle: UIAlertControllerStyle.Alert)
+            var alert = UIAlertController(title: "Aviso", message: "El campo 'Nombre' debe estar relleno", preferredStyle: UIAlertControllerStyle.Alert)
             alert.addAction(UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default, handler: nil))
             self.presentViewController(alert, animated: true, completion: nil)
         }
@@ -158,26 +144,27 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     func savePhotoToSandBox(){
         NSLog("SavePhotoToSandBox")
         var photoData: NSData = UIImageJPEGRepresentation(photoNew, 0.4)
-        //??????var imageURL: NSURL = appDelegate.imageURL
         var imageURL: NSURL = appDelegate!.applicationDocumentsDirectory
-        var fileName: String
+        var fileName: String = uniqueFileName()
         //verifica si es Añadir
-        var hayFoto = person?.photo
-        NSLog(hayFoto!)
+        /*var hayFoto = person?.photo
+        NSLog("savedPhotoToSandBox hayFoto: "+hayFoto!)
         if(hayFoto != nil){
             fileName = person!.photo
         }else {
             fileName = uniqueFileName()
-        }
-        NSLog(fileName)
-        imageURL.URLByAppendingPathComponent(fileName)
-        person?.photo = imageURL.absoluteString
-        NSLog(imageURL.absoluteString!)
-        photoData.writeToURL(imageURL, atomically: true)
+        }*/
+        
+        NSLog("savePhotoToSadnBox fileName: "+fileName)
+        photopath = (imageURL.URLByAppendingPathComponent(fileName))
+        //person?.photo = imageURL.absoluteString
+        person?.photo = photopath?.absoluteString
+        NSLog("savePhotoToSadnBox photopath: "+photopath!.absoluteString!)
+        photoData.writeToURL(photopath!, atomically: true)
     }
     
     
-    //crea un nombre unico para cada imagen <nombre del contacto>_<fecha instantanea ddMMyyHHmmss>.jpg
+    //crea un nombre unico para cada imagen <nombre del contacto>_<fecha instantanea ddMMyyHHmmss>
     func uniqueFileName()-> String {
         NSLog("uniqueFileName")
         var photoName = name.text.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
