@@ -22,7 +22,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var appDelegate: AppDelegate?
     var person: Person?
     var photoNew: UIImage? //guarda la foto seleccionada
-    var photopath: NSString? //guarda el path de la foto
+    var photopath: String? //guarda el path de la foto
     
     
     override func viewDidLoad() {
@@ -78,18 +78,20 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //Si ha seleccionado una foto, la carga en el boton
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         photoNew = info[UIImagePickerControllerOriginalImage] as? UIImage
+        
         photoButton.setBackgroundImage(photoNew, forState: .Normal)
         //si la foto fue sacada con la camara la guarda en photolibray
         if picker.sourceType == UIImagePickerControllerSourceType.Camera {
             UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as? UIImage, nil, nil, nil)
         }
-        photopath = info[UIImagePickerControllerReferenceURL] as? NSString
+        //NSLog(info.description)
+        photopath = (info[UIImagePickerControllerReferenceURL] as? NSURL)?.absoluteString
         if photopath == nil {
             NSLog("photopath = nil")
-        
+        }else {
+            NSLog(photopath!)
         }
-        
-        
+
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -119,10 +121,11 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             if person == nil {
                 person = appDelegate?.createObject("Person") as? Person
             }
-            //guardar foto en el sandbox
+            //guardar foto
             if photoNew != nil {
                 //savePhotoToSandBox()
                 person?.photo=photopath
+                NSLog("savePerson photopath: "+photopath!)
             }
             //coge los datos y los guarda en el modelo
             person?.name = name.text
