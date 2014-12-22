@@ -9,7 +9,6 @@
 import UIKit
 
 class EditViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
     
     @IBOutlet weak var photoButton: UIButton!
     @IBOutlet weak var phone: UITextField!
@@ -18,10 +17,34 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var notes: UITextField!
     @IBOutlet weak var geolocation: UITextField!
     
-    //var appDelegate: AppDelegate
+    var appDelegate: AppDelegate
     var person: Person?
     var photoName: String?
     var photoNew: UIImage? //guarda la foto seleccionada
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        if (person!.name != "") {
+            title = "Editar"
+            photoButton.imageView?.image = UIImage(named: person!.photo)
+            name.text = person?.name
+            phone.text = person?.phone
+            score.text = "\(person?.score)"
+            geolocation.text = "\(person?.latitude),  \(person?.longitude)"
+            notes.text = person?.notes
+        }
+        
+        // Do any additional setup after loading the view.
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
     
     //Accion al pinchar la foto -> permite selccionar otra foto
     @IBAction func selectPhoto(sender: AnyObject) {
@@ -79,30 +102,10 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         dismissViewControllerAnimated(true, completion: nil)
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        if (person!.name != "") {
-            title = "Editar"
-            photoButton.imageView?.image = UIImage(named: person!.photo)
-            name.text = person?.name
-            phone.text = person?.phone
-            score.text = "\(person?.score)"
-            geolocation.text = "\(person?.latitude),  \(person?.longitude)"
-            notes.text = person?.notes
-        }
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     @IBAction func savePerson(sender: UIBarButtonItem) {
         if name.text != "" {
             //guardar foto en el sandbox
-            
+            savePhotoToSandBox(name.text)
             //coge los datos y los guarda en el modelo
             person?.name = name.text
             person?.phone = phone.text
@@ -110,7 +113,8 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             person?.notes = notes.text
             getCoordinates(geolocation.text)
             person?.photo = photoName
-            
+            appDelegate.saveContext()
+            navigationController?.popToRootViewControllerAnimated(true)
         }
         else {
             var alert = UIAlertController(title: "Aviso", message: "El campo debe estar relleno", preferredStyle: UIAlertControllerStyle.Alert)
@@ -119,10 +123,10 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
     }
 
-    //función para dar nombres a las fotos
-    func newPhotoName(name: String) -> String {
-        name = name.stringByTrimmingCharactersInSet()
-        return name
+    //función para guardar la foto en el sandbox
+    func savePhotoToSandBox(name:String){
+        var photoName = name.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+        
     }
     
     func getCoordinates(coordenate:String){
