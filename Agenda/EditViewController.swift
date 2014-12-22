@@ -27,11 +27,12 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if (person!.name != "") {
             title = "Editar"
-            photoButton.imageView?.image = UIImage(named: person!.photo)
-            name.text = person?.name
-            phone.text = person?.phone
-            score.text = "\(person?.score)"
-            geolocation.text = "\(person?.latitude),  \(person?.longitude)"
+            //photoButton.imageView?.image = UIImage(named: person!.photo)
+            photoButton.setBackgroundImage(UIImage(named: person!.photo), forState: .Normal)
+            name.text = person!.name
+            phone.text = person!.phone
+            score.text = "\(person!.score)"
+            geolocation.text = "\(person!.latitude),  \(person!.longitude)"
             notes.text = person?.notes
         }
         
@@ -72,7 +73,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //Si ha seleccionado una foto, la carga en el boton
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         photoNew = info[UIImagePickerControllerOriginalImage] as? UIImage
-        photoButton.imageView?.image = photoNew
+        photoButton.setBackgroundImage(photoNew, forState: .Normal)
         //si la foto fue sacada con la camara la guarda en photolibray
         /*if picker.sourceType == UIImagePickerControllerSourceType.Camera {
             UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as? UIImage, nil, nil, nil)
@@ -81,21 +82,20 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     }
     
     //????
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
+//    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
         //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
-        photoButton.imageView?.image=image
-        photoNew = image
+//        photoButton.setBackgroundImage(image, forState: .Normal)
+//        photoNew = image
         //si la foto fue sacada con la camara, la guarda en photolibray
         /*if picker.sourceType == UIImagePickerControllerSourceType.Camera {
             UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
         }*/
         
-        
         //cojo el nombre de la foto
         /*var imagePath: NSURL = editingInfo[UIImagePickerControllerReferenceURL] as NSURL
         photoName = imagePath.lastPathComponent*/
-        dismissViewControllerAnimated(true, completion: nil)
-    }
+//        dismissViewControllerAnimated(true, completion: nil)
+//    }
     
     //
     func imagePickerControllerDidCancel(picker: UIImagePickerController) {
@@ -130,25 +130,30 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     //función para guardar la foto en el sandbox
     func savePhotoToSandBox(){
+        NSLog("SavePhotoToSandBox")
         var photoData: NSData = UIImageJPEGRepresentation(photoNew, 0.4)
         //??????var imageURL: NSURL = appDelegate.imageURL
         var imageURL: NSURL = appDelegate!.applicationDocumentsDirectory
         var fileName: String
         //verifica si es Añadir
-        if(person?.photo == nil){
-            fileName = uniqueFileName()
-            
-        }else {
+        var hayFoto = person?.photo
+        NSLog(hayFoto!)
+        if(hayFoto != nil){
             fileName = person!.photo
+        }else {
+            fileName = uniqueFileName()
         }
+        NSLog(fileName)
         imageURL.URLByAppendingPathComponent(fileName)
         person?.photo = imageURL.absoluteString
+        NSLog(imageURL.absoluteString!)
         photoData.writeToURL(imageURL, atomically: true)
     }
     
     
     //crea un nombre unico para cada imagen <nombre del contacto>_<fecha instantanea ddMMyyHHmmss>.jpg
     func uniqueFileName()-> String {
+        NSLog("uniqueFileName")
         var photoName = name.text.stringByReplacingOccurrencesOfString(" ", withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
         var ddMMyyHHmmss: NSDateFormatter = NSDateFormatter()
         ddMMyyHHmmss.dateFormat = "ddMMyyHHmmss"
