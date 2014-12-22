@@ -112,7 +112,11 @@ class TableViewController: UITableViewController {
         let person = persons[indexPath.row] as Person
         cell.textLabel?.text=person.name
         cell.detailTextLabel?.text = "☎︎ \(person.phone) 😘 \(person.score)"
-        cell.imageView?.image=UIImage(named: person.photo)
+        if person.photo != nil{
+            cell.imageView?.image=UIImage(named: person.photo)
+        }
+        
+        
 
         return cell
     }

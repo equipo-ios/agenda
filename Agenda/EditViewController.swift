@@ -15,7 +15,9 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet weak var score: UITextField!
     @IBOutlet weak var name: UITextField!
     @IBOutlet weak var notes: UITextField!
-    @IBOutlet weak var geolocation: UITextField!
+    //@IBOutlet weak var geolocation: UITextField!
+    @IBOutlet weak var latitude: UITextField!
+    @IBOutlet weak var longitude: UITextField!
     
     var appDelegate: AppDelegate?
     var person: Person?
@@ -32,7 +34,9 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             name.text = person!.name
             phone.text = person!.phone
             score.text = "\(person!.score)"
-            geolocation.text = "\(person!.latitude),  \(person!.longitude)"
+//            geolocation.text = "\(person!.latitude),  \(person!.longitude)"
+            latitude.text = "\(person!.latitude)"
+            longitude.text = "\(person!.longitude)"
             notes.text = person?.notes
         }
         
@@ -113,7 +117,9 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             person?.phone = phone.text
             person?.score = score.text.toInt()
             person?.notes = notes.text
-            getCoordinates(geolocation.text)
+            //getCoordinates(geolocation.text)
+            person?.latitude = (latitude.text as NSString).doubleValue
+            person?.longitude = (longitude.text as NSString).doubleValue
             
             //actualiza base de datos
             appDelegate!.saveContext()
