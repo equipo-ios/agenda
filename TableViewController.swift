@@ -211,9 +211,9 @@ class TableViewController: UITableViewController {
             NSLog("Vamos al segue Add")
             var vc: EditViewController = segue.destinationViewController as EditViewController
             // Pasarle una nueva Person
-            var person = self.appDelegate.createObject("Person") as Person
+            /*var person = self.appDelegate.createObject("Person") as Person
             person.name = ""
-            vc.person = person
+            vc.person = person*/
         }
         
         if (segue.identifier == "Edit") {
