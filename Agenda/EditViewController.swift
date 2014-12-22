@@ -113,7 +113,9 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             person?.notes = notes.text
             getCoordinates(geolocation.text)
             person?.photo = photoName
+            //actualiza base de datos
             appDelegate.saveContext()
+            //vuelve a la tableView
             navigationController?.popToRootViewControllerAnimated(true)
         }
         else {
