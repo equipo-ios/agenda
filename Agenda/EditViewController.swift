@@ -22,12 +22,13 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     var appDelegate: AppDelegate?
     var person: Person?
     var photoNew: UIImage? //guarda la foto seleccionada
+    var photopath: String? //guarda el path de la foto
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
-        if (person!.name != "") {
+        if (person != nil) {
             title = "Editar"
             //photoButton.imageView?.image = UIImage(named: person!.photo)
             photoButton.setBackgroundImage(UIImage(named: person!.photo), forState: .Normal)
@@ -79,9 +80,12 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         photoNew = info[UIImagePickerControllerOriginalImage] as? UIImage
         photoButton.setBackgroundImage(photoNew, forState: .Normal)
         //si la foto fue sacada con la camara la guarda en photolibray
-        /*if picker.sourceType == UIImagePickerControllerSourceType.Camera {
+        if picker.sourceType == UIImagePickerControllerSourceType.Camera {
             UIImageWriteToSavedPhotosAlbum(info[UIImagePickerControllerOriginalImage] as? UIImage, nil, nil, nil)
-        }*/
+        }
+        photopath = info[UIImagePickerControllerReferenceURL] as? String
+        NSLog(photopath!)
+        
         dismissViewControllerAnimated(true, completion: nil)
     }
     
@@ -108,9 +112,13 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     @IBAction func savePerson(sender: UIBarButtonItem) {
         if name.text != "" {
+            if person == nil {
+                person = appDelegate?.createObject("Person") as? Person
+            }
             //guardar foto en el sandbox
             if photoNew != nil {
-                savePhotoToSandBox()
+                //savePhotoToSandBox()
+                person?.photo=photopath
             }
             //coge los datos y los guarda en el modelo
             person?.name = name.text
