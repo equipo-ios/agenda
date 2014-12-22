@@ -80,6 +80,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         dismissViewControllerAnimated(true, completion: nil)
     }
     
+    //????
     func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: NSDictionary!) {
         //var tempImage:UIImage = editingInfo[UIImagePickerControllerOriginalImage] as UIImage
         photoButton.imageView?.image=image
@@ -157,9 +158,10 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 
     
     func getCoordinates(coordenate:String){
-        //person?.latitude =
-        //person?.longitude =
+        person?.latitude = (coordenate.componentsSeparatedByString(", ")[0] as NSString).floatValue
+        person?.longitude = (coordenate.componentsSeparatedByString(", ")[1] as NSString).floatValue
     }
+    
     /*
     // MARK: - Navigation
 
