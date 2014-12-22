@@ -26,13 +26,10 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "muestraTeclado:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "escondeTeclado:", name: UIKeyboardWillHideNotification, object: nil)
-        /*
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(muestraTeclado:) name:UIKeyboardWillShowNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(escondeTeclado:) name:UIKeyboardWillHideNotification object:nil];
-        */
+        // para probar que los campos no se oculten con el teclado descomentar estas dos líneas
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "muestraTeclado:", name: UIKeyboardWillShowNotification, object: nil)
+        //NSNotificationCenter.defaultCenter().addObserver(self, selector: "escondeTeclado:", name: UIKeyboardWillHideNotification, object: nil)
+       
 
         appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if (person!.name != "") {
@@ -205,7 +202,23 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 */
 
     func muestraTeclado(aNotification: NSNotification) {
+        NSLog("El teclado se va a mostrar")
+        var animationDuration = NSTimeInterval()
+        var animationCurve: UIViewAnimationCurve? = nil
+        var keyboardFrame = CGRect()
         
+        var info: NSDictionary = aNotification.userInfo! as NSDictionary
+        
+        info.objectForKey(UIKeyboardAnimationDurationUserInfoKey)?.getValue(&animationDuration)
+        info.objectForKey(UIKeyboardAnimationCurveUserInfoKey)?.getValue(&animationCurve)
+        info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.getValue(&keyboardFrame)
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(animationDuration)
+        UIView.setAnimationCurve(animationCurve!)
+        self.view.frame=CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y - keyboardFrame.size.height, self.view.frame.size.width, self.view.frame.size.height)
+        
+        UIView.commitAnimations()
     }
 
 /*
@@ -231,7 +244,23 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
 */
 
     func escondeTeclado(aNotification: NSNotification) {
-
+        NSLog("El teclado se va a ocultar")
+        var animationDuration = NSTimeInterval()
+        var animationCurve: UIViewAnimationCurve? = nil
+        var keyboardFrame = CGRect()
+        
+        var info: NSDictionary = aNotification.userInfo! as NSDictionary
+        
+        info.objectForKey(UIKeyboardAnimationDurationUserInfoKey)?.getValue(&animationDuration)
+        info.objectForKey(UIKeyboardAnimationCurveUserInfoKey)?.getValue(&animationCurve)
+        info.objectForKey(UIKeyboardFrameBeginUserInfoKey)?.getValue(&keyboardFrame)
+        
+        UIView.beginAnimations(nil, context: nil)
+        UIView.setAnimationDuration(animationDuration)
+        UIView.setAnimationCurve(animationCurve!)
+        self.view.frame=CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + keyboardFrame.size.height, self.view.frame.size.width, self.view.frame.size.height)
+        
+        UIView.commitAnimations()
     }
 
     /*
