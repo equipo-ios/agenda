@@ -26,6 +26,14 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "muestraTeclado:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "escondeTeclado:", name: UIKeyboardWillHideNotification, object: nil)
+        /*
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(muestraTeclado:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(escondeTeclado:) name:UIKeyboardWillHideNotification object:nil];
+        */
+
         appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if (person!.name != "") {
             title = "Editar"
@@ -172,7 +180,60 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         person?.latitude = (coordenate.componentsSeparatedByString(", ")[0] as NSString).floatValue
         person?.longitude = (coordenate.componentsSeparatedByString(", ")[1] as NSString).floatValue
     }
+
+/*
+-(void) muestraTeclado:(NSNotification*)aNotification
+{
+    NSLog(@"Keyboard was shown");
+    NSDictionary* info = [aNotification userInfo];
     
+    NSTimeInterval animationDuration;
+    UIViewAnimationCurve animationCurve;
+    CGRect keyboardFrame;
+    [[info objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardFrame];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationCurve:animationCurve];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y- keyboardFrame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    [UIView commitAnimations];
+    
+}
+*/
+
+    func muestraTeclado(aNotification: NSNotification) {
+        
+    }
+
+/*
+-(void) escondeTeclado:(NSNotification*)aNotification
+{
+    NSLog(@"Keyboard will hide");
+    NSDictionary* info = [aNotification userInfo];
+    
+    NSTimeInterval animationDuration;
+    UIViewAnimationCurve animationCurve;
+    CGRect keyboardFrame;
+    [[info objectForKey:UIKeyboardAnimationCurveUserInfoKey] getValue:&animationCurve];
+    [[info objectForKey:UIKeyboardAnimationDurationUserInfoKey] getValue:&animationDuration];
+    [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] getValue:&keyboardFrame];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:animationDuration];
+    [UIView setAnimationCurve:animationCurve];
+    [self.view setFrame:CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y + keyboardFrame.size.height, self.view.frame.size.width, self.view.frame.size.height)];
+    
+    [UIView commitAnimations];
+}
+*/
+
+    func escondeTeclado(aNotification: NSNotification) {
+
+    }
+
     /*
     // MARK: - Navigation
 
