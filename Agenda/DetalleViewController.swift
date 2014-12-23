@@ -19,17 +19,23 @@ class DetalleViewController: UIViewController {
     @IBOutlet weak var notes: UILabel!
     
     var person: Person?
+    var appDelegate: AppDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if person?.photo != nil {
             //photo.image = UIImage(named: person!.photo)
             if (person!.photo).lastPathComponent.hasSuffix(".png") {
                 photo.image = UIImage(named: person!.photo)
             }else{
-                photo.image = UIImage(contentsOfFile: person!.photo)
+                var imageURL: NSURL = appDelegate!.applicationDocumentsDirectory
+                var pathFoto = (imageURL.URLByAppendingPathComponent(person!.photo))
+                var dataFoto: NSData = NSData(contentsOfURL: pathFoto)!
+                photo.image = UIImage(data: dataFoto)
+                //photo.image = UIImage(contentsOfFile: person!.photo)
             }
         }else{
             photo.image = UIImage(named: "hombre01")

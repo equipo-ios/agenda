@@ -44,7 +44,11 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 if (person!.photo).lastPathComponent.hasSuffix(".png") {
                     photoButton.setBackgroundImage(UIImage(named: person!.photo), forState: .Normal)
                 }else{
-                    photoButton.setBackgroundImage(UIImage(contentsOfFile: person!.photo), forState: .Normal)
+                    var imageURL: NSURL = appDelegate!.applicationDocumentsDirectory
+                    var pathFoto = (imageURL.URLByAppendingPathComponent(person!.photo))
+                    var dataFoto: NSData = NSData(contentsOfURL: pathFoto)!
+                    photoButton.setBackgroundImage(UIImage(data: dataFoto), forState: .Normal)
+                    //photoButton.setBackgroundImage(UIImage(contentsOfFile: person!.photo), forState: .Normal)
                 }
                 /*var filePath: NSURL = NSURL(fileURLWithPath: person!.photo)!
                 NSLog(filePath.absoluteString!)
@@ -158,7 +162,8 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         NSLog("savePhotoToSadnBox fileName: "+fileName)
         photopath = (imageURL.URLByAppendingPathComponent(fileName))
         //person?.photo = imageURL.absoluteString
-        person?.photo = photopath?.absoluteString
+        //person?.photo = photopath?.absoluteString
+        person?.photo = fileName
         NSLog("savePhotoToSadnBox photopath: "+photopath!.absoluteString!)
         photoData.writeToURL(photopath!, atomically: true)
     }
