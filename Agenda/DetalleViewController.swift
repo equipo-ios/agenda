@@ -35,6 +35,7 @@ class DetalleViewController: UIViewController {
                 var pathFoto = (imageURL.URLByAppendingPathComponent(person!.photo))
                 var dataFoto: NSData = NSData(contentsOfURL: pathFoto)!
                 photo.image = UIImage(data: dataFoto)
+                NSLog("Detalle photoPath: "+pathFoto.absoluteString!+"fotoName: "+person!.photo)
                 //photo.image = UIImage(contentsOfFile: person!.photo)
             }
         }else{

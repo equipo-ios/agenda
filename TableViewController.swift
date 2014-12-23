@@ -113,9 +113,35 @@ class TableViewController: UITableViewController {
         cell.textLabel?.text=person.name
         cell.detailTextLabel?.text = "☎︎ \(person.phone) 😘 \(person.score)"
         if person.photo != nil{
-            cell.imageView?.image=UIImage(named: person.photo)
+            if (person.photo).lastPathComponent.hasSuffix(".png") {
+                cell.imageView?.image=UIImage(named: person.photo)
+            }
+            else{
+               /* var imageURL: NSURL = appDelegate.applicationDocumentsDirectory
+                var pathFoto = (imageURL.URLByAppendingPathComponent(person.photo))
+                //var dataFoto: NSData = NSData(contentsOfURL: pathFoto)!
+                //cell.imageView?.image = UIImage(data: (NSData(contentsOfURL: pathFoto))!)
+                cell.imageView?.image = UIImage((contentsOfFile: pathFoto.absoluteString), )
+                NSLog("Detalle photoPath: "+pathFoto.absoluteString!+"fotoName: "+person.photo)
+                //photo.image = UIImage(contentsOfFile: person!.photo)*/
+            }
         }
         
+        /*
+        if person?.photo != nil {
+        //photo.image = UIImage(named: person!.photo)
+        if (person!.photo).lastPathComponent.hasSuffix(".png") {
+        photo.image = UIImage(named: person!.photo)
+        }else{
+        var imageURL: NSURL = appDelegate!.applicationDocumentsDirectory
+        var pathFoto = (imageURL.URLByAppendingPathComponent(person!.photo))
+        var dataFoto: NSData = NSData(contentsOfURL: pathFoto)!
+        photo.image = UIImage(data: dataFoto)
+        NSLog("Detalle photoPath: "+pathFoto.absoluteString!+"fotoName: "+person!.photo)
+        //photo.image = UIImage(contentsOfFile: person!.photo)
+        }
+        }
+*/
         
 
         return cell
