@@ -30,3 +30,12 @@ func getDocumentPathForPhoto(named fileName: String) -> String {
     var photoURL: NSURL = (docsURL.URLByAppendingPathComponent(fileName))
     return photoURL.path!
 }
+
+func squareThumbnailFromImage(#image: UIImage, #size: CGFloat) -> UIImage {
+    var newSize: CGSize = CGSizeMake(size, size)
+    UIGraphicsBeginImageContext(newSize)
+    image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
+    var newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+    return newImage
+}

@@ -112,11 +112,13 @@ class TableViewController: UITableViewController {
         let person = persons[indexPath.row] as Person
         cell.textLabel?.text=person.name
         cell.detailTextLabel?.text = "☎︎ \(person.phone) 😘 \(person.score)"
+        var photo: UIImage?
         if person.photo != nil {
-            cell.imageView.image = loadPhoto(person.photo)
+            photo = loadPhoto(person.photo)
         } else {
-            cell.imageView.image = loadPhoto("hombre01") // imágen por defecto
+            photo = loadPhoto("hombre01") // imágen por defecto
         }
+        cell.imageView.image = squareThumbnailFromImage(image: photo!, size: 40)
 
         return cell
     }
