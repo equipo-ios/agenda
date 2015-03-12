@@ -12,6 +12,7 @@
 		ED9F775B1A42DA9700D15B84 /* DetalleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED9F775A1A42DA9700D15B84 /* DetalleViewController.swift */; };
 		ED9F775F1A42EF8A00D15B84 /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = ED9F775E1A42EF8A00D15B84 /* Person.m */; };
 		FB36C7201A4702A80051B213 /* FakePersons.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB36C71F1A4702A80051B213 /* FakePersons.plist */; };
+		FB36C7221AB0E7A30051B213 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB36C7211AB0E7A30051B213 /* Utilities.swift */; };
 		FBE10FB01A419A87008DB441 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE10FAF1A419A87008DB441 /* AppDelegate.swift */; };
 		FBE10FB31A419A87008DB441 /* Agenda.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FBE10FB11A419A87008DB441 /* Agenda.xcdatamodeld */; };
 		FBE10FB81A419A87008DB441 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FBE10FB61A419A87008DB441 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 		ED9F775D1A42EF8A00D15B84 /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
 		ED9F775E1A42EF8A00D15B84 /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		FB36C71F1A4702A80051B213 /* FakePersons.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FakePersons.plist; sourceTree = "<group>"; };
+		FB36C7211AB0E7A30051B213 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		FBE10FAA1A419A87008DB441 /* Agenda.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Agenda.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FBE10FAE1A419A87008DB441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FBE10FAF1A419A87008DB441 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 				ED9F775E1A42EF8A00D15B84 /* Person.m */,
 				FBE10FAD1A419A87008DB441 /* Supporting Files */,
 				ED9F775C1A42EF8A00D15B84 /* Agenda-Bridging-Header.h */,
+				FB36C7211AB0E7A30051B213 /* Utilities.swift */,
 			);
 			path = Agenda;
 			sourceTree = "<group>";
@@ -234,6 +237,7 @@
 			files = (
 				ED9F775F1A42EF8A00D15B84 /* Person.m in Sources */,
 				ED9F77571A42D8A100D15B84 /* EditViewController.swift in Sources */,
+				FB36C7221AB0E7A30051B213 /* Utilities.swift in Sources */,
 				ED9F775B1A42DA9700D15B84 /* DetalleViewController.swift in Sources */,
 				FBE10FB01A419A87008DB441 /* AppDelegate.swift in Sources */,
 				FBE10FB31A419A87008DB441 /* Agenda.xcdatamodeld in Sources */,
