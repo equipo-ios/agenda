@@ -142,6 +142,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Functions for entities management
     
     func deleteObject (entity: NSManagedObject) {
+        // Eliminar la foto del directorio de documentos
+        var photo: String? = entity.valueForKey("photo") as String?
+        if photo != nil {
+            var photoPath: String = getDocumentPathForPhoto(named: photo!)
+            if (NSFileManager.defaultManager().fileExistsAtPath(photoPath)) {
+                var error: NSError? = nil
+                if (!NSFileManager.defaultManager().removeItemAtPath(photoPath, error: &error)) {
+                    NSLog("Borando foto: Unresolved error \(error), \(error!.userInfo)")
+                }
+            }
+        }
         self.managedObjectContext?.deleteObject(entity)
         self.saveContext()
     }

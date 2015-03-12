@@ -16,12 +16,17 @@ func loadPhoto(fileName: String) -> UIImage? {
     
     var photo: UIImage? = UIImage(named: fileName)
     
-    if photo == nil {
-        var docsURL: NSURL = appDelegate.applicationDocumentsDirectory
-        var photoURL: NSURL = (docsURL.URLByAppendingPathComponent(fileName))
-        photo = UIImage(contentsOfFile: photoURL.path!)
-        //NSLog("La foto no está en el bundle, path: \(photoURL.path!)")
+    if photo == nil { // La foto no está en el bundle, buscarla en Documents
+        var photoPath: String = getDocumentPathForPhoto(named: fileName)
+        photo = UIImage(contentsOfFile: photoPath)
+        //NSLog("La foto no está en el bundle, path: \(photoPath)")
     }
     
     return photo
+}
+
+func getDocumentPathForPhoto(named fileName: String) -> String {
+    var docsURL: NSURL = appDelegate.applicationDocumentsDirectory
+    var photoURL: NSURL = (docsURL.URLByAppendingPathComponent(fileName))
+    return photoURL.path!
 }
