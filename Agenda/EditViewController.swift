@@ -35,26 +35,13 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate
         if (person != nil) {
             title = "Editar"
-            //photoButton.imageView?.image = UIImage(named: person!.photo)
-            if person!.photo != nil{
+            
+            if person!.photo != nil {
                 NSLog("ViewDidLoad person.photo: "+person!.photo)
                 photoButton.setTitle("", forState: .Normal)
-                //var photo: UIImage = UIImage(named:person!.photo)! as UIImage
-                //photoButton.setBackgroundImage(UIImage(named:person!.photo), forState: .Normal)
-                if (person!.photo).lastPathComponent.hasSuffix(".png") {
-                    photoButton.setBackgroundImage(UIImage(named: person!.photo), forState: .Normal)
-                }else{
-                    var imageURL: NSURL = appDelegate!.applicationDocumentsDirectory
-                    var pathFoto = (imageURL.URLByAppendingPathComponent(person!.photo))
-                    var dataFoto: NSData = NSData(contentsOfURL: pathFoto)!
-                    photoButton.setBackgroundImage(UIImage(data: dataFoto), forState: .Normal)
-                    //photoButton.setBackgroundImage(UIImage(contentsOfFile: person!.photo), forState: .Normal)
-                }
-                /*var filePath: NSURL = NSURL(fileURLWithPath: person!.photo)!
-                NSLog(filePath.absoluteString!)
-                var dataImage:NSData = NSData(contentsOfURL: filePath)!
-                photoButton.setBackgroundImage(UIImage(data: dataImage), forState: .Normal)*/
-              }
+                
+                photoButton.setBackgroundImage(loadPhoto(person!.photo), forState: .Normal)
+            }
             name.text = person!.name
             phone.text = person!.phone
             score.text = "\(person!.score)"

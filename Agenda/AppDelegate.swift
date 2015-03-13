@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var modelName = "Agenda"
     var dbFileName = "Agenda.sqlite"
     
+    var defaultPhoto = "hombre01"
+    
     override init() {
         super.init()
         // TODO: Leer datos por defecto solo si no existe la base de datos

@@ -116,7 +116,7 @@ class TableViewController: UITableViewController {
         if person.photo != nil {
             photo = loadPhoto(person.photo)
         } else {
-            photo = loadPhoto("hombre01") // imágen por defecto
+            photo = loadPhoto(appDelegate.defaultPhoto) // imágen por defecto
         }
         cell.imageView.image = squareThumbnailFromImage(image: photo!, size: 40)
 
