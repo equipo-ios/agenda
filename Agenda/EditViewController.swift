@@ -39,8 +39,9 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             if person!.photo != nil {
                 NSLog("ViewDidLoad person.photo: "+person!.photo)
                 photoButton.setTitle("", forState: .Normal)
-                
-                photoButton.setBackgroundImage(loadPhoto(person!.photo), forState: .Normal)
+                // Usamos la imágen de frente para poder mantener la relación de aspecto
+                photoButton.imageView?.contentMode = UIViewContentMode.ScaleAspectFit
+                photoButton.setImage(loadPhoto(person!.photo), forState: .Normal)
             }
             name.text = person!.name
             phone.text = person!.phone
@@ -85,7 +86,7 @@ class EditViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     //Si ha seleccionado una foto, la carga en el boton
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         photoNew = info[UIImagePickerControllerOriginalImage] as? UIImage
-        photoButton.setBackgroundImage(photoNew, forState: .Normal)
+        photoButton.setImage(photoNew, forState: .Normal)
         photoButton.setTitle("", forState: .Normal)
         dismissViewControllerAnimated(true, completion: nil)
     }
