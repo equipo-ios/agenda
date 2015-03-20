@@ -32,10 +32,39 @@ func getDocumentPathForPhoto(named fileName: String) -> String {
 }
 
 func squareThumbnailFromImage(#image: UIImage, #size: CGFloat) -> UIImage {
-    var newSize: CGSize = CGSizeMake(size, size)
-    UIGraphicsBeginImageContext(newSize)
-    image.drawInRect(CGRectMake(0, 0, newSize.width, newSize.height))
-    var newImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()
+    var thumbnailSize: CGSize = CGSizeMake(size, size)
+    var widthScale: CGFloat
+    var heightScale: CGFloat
+    var newWidth: CGFloat
+    var newHeight: CGFloat
+    var originX: CGFloat
+    var originY: CGFloat
+    var thumbnail: UIImage
+    
+    // calculamos los factores de escalado
+    if image.size.width > image.size.height {
+        // imagen apaiasada
+        widthScale = 1.0
+        heightScale = image.size.height / image.size.width
+    } else {
+        // imagen vertical
+        widthScale = image.size.width / image.size.height
+        heightScale = 1.0
+    }
+    
+    // calculamos el nuevo tamaño de la imagen
+    newWidth = thumbnailSize.width * widthScale
+    newHeight = thumbnailSize.height * heightScale
+    
+    // calculamos las coordenadas para dibujar la imagen centrada
+    originX = (thumbnailSize.width / 2) - (newWidth) / 2
+    originY = (thumbnailSize.height / 2) - (newHeight) / 2
+    
+    UIGraphicsBeginImageContext(thumbnailSize)
+    // dibujamos la imagen escalada
+    image.drawInRect(CGRectMake(originX, originY, newWidth, newHeight))
+    thumbnail = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
-    return newImage
+    
+    return thumbnail
 }
